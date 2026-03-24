@@ -1,0 +1,13 @@
+//
+// Created by maddi on 3/24/2026.
+//
+
+#ifndef PROGRAMMINGASSIGNMENT2_ARRAYSTACK_H
+#define PROGRAMMINGASSIGNMENT2_ARRAYSTACK_H
+
+
+class ArrayStack {
+};
+
+
+#endif //PROGRAMMINGASSIGNMENT2_ARRAYSTACK_H
