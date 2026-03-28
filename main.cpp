@@ -19,6 +19,15 @@ struct Token {
 vector<Token> tokenize(const string& line) {
     vector<Token> tokens;
     // TODO
+    // break the input string into tokens
+    // include in instructions to put spaces between characters - can find that way - loop from space to space?
+        // double digits would be easier
+        // parentheses too?
+        // put into previously empty array
+        // returns tokens as value or array?
+            // tokens is a vector!
+            // vectors have built in functions
+
     return tokens;
 }
 
@@ -30,6 +39,10 @@ bool isOperator(const string& s) {
 
 int precedence(const string& op) {
     // TODO
+    // this is precedence of operators
+    // parentheses come first then rest of PEMDAS
+    // gives indexes priority? - indexes hold multiple values?
+    // return type is int
     return 0;
 }
 
@@ -37,11 +50,17 @@ int precedence(const string& op) {
 
 bool isValidPostfix(const vector<Token>& tokens) {
     // TODO
+    // search for operators - use isOperator
+    // if at the end post fix
+    // if parentheses - throw error
     return false;
 }
 
 bool isValidInfix(const vector<Token>& tokens) {
     // TODO
+    // normal operations
+    // computer doesn't understand precedence from parentheses or operators?
+
     return false;
 }
 
@@ -50,6 +69,7 @@ bool isValidInfix(const vector<Token>& tokens) {
 vector<Token> infixToPostfix(const vector<Token>& tokens) {
     vector<Token> output;
     // TODO
+    // order determined by position - put highest precedence first
     return output;
 }
 
@@ -58,6 +78,12 @@ vector<Token> infixToPostfix(const vector<Token>& tokens) {
 double evalPostfix(const vector<Token>& tokens) {
     ArrayStack<double> stack;
     // TODO
+    // solve expression
+    // take values from stack use to operate
+    // pop one at a time and do something to current total value?
+        // first in first out - keep in mind
+        // reverse order from vector?
+
     return 0.0;
 }
 
