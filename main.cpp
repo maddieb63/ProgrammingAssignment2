@@ -41,10 +41,12 @@ ArrayStack<Token> tokenize(const string& line) {
         } else {
             current += line[i];
         }
-        Token token;
-        token.value = current;
-        tokens.push(token);
     }
+    // last value
+    Token token;
+    token.value = current;
+    tokens.push(token);
+
 
     return tokens;
 }
@@ -61,12 +63,13 @@ int precedence(const string& op) {
     // parentheses come first then rest of PEMDAS
     // gives indexes priority? - indexes hold multiple values?
     // return type is int
+
     return 0;
 }
 
 // Detection
 
-bool isValidPostfix(const vector<Token>& tokens) {
+bool isValidPostfix(const ArrayStack<Token>& tokens) {
     // TODO
     // search for operators - use isOperator
     // if at the end post fix
@@ -75,12 +78,27 @@ bool isValidPostfix(const vector<Token>& tokens) {
     return false;
 }
 
-bool isValidInfix(const vector<Token>& tokens) {
+bool isValidInfix(ArrayStack<Token>& tokens) {
     // TODO
     // normal operations
     // computer doesn't understand precedence from parentheses or operators?
+    if (tokens.empty()) return false;
 
-    return false;
+    // check last index
+    Token top = tokens.top();
+    if (isOperator(top.value)) return false;
+    tokens.pop();
+
+    while (!tokens.empty()) {
+        Token current = tokens.top();
+        tokens.pop();
+        Token previous = tokens.top();
+        if (isOperator(previous.value) && isOperator(current.value)) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 // Conversion
@@ -110,13 +128,13 @@ double evalPostfix(const ArrayStack<Token>& tokens) {
 
 int main() {
 
-    cout << "Testing " << endl;
+    cout << "Testing Print - Enter line " << endl;
 
     string line;
     getline(cin, line);
 
     ArrayStack<Token> tokens = tokenize(line);
-    std::cout << "Tokenized Line: " << tokens.printStack() << endl;
+    tokens.printStack();
 
     /*
     if (isValidPostfix(tokens)) {

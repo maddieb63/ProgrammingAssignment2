@@ -57,9 +57,9 @@ public:
         // return number of indexes + 1 for index 0
         return topIndex + 1;
     }
-    void printStack(const ArrayStack<T>& stack) {
-        for (int i =0; i < size(); i++) {
-            std::cout << data[i] << " ";
+    void printStack() const {
+        for (int i =0; i <= topIndex; i++) {
+            std::cout << data[i].value << " ";
         }
         std::cout << std::endl;
     }
