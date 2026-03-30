@@ -18,6 +18,8 @@ struct Token {
 
 vector<Token> tokenize(const string& line) {
     vector<Token> tokens;
+    //for value in tokens:
+
     // TODO
     // break the input string into tokens
     // include in instructions to put spaces between characters - can find that way - loop from space to space?
@@ -90,10 +92,34 @@ double evalPostfix(const vector<Token>& tokens) {
 // Main
 
 int main() {
-    string line;
+    //ArrayStack.h testing
+    ArrayStack<int> stack;
+
+    cout << "Testing " << endl;
+    //push
+    stack.push(4);
+    stack.push(8);
+    stack.push(12);
+    stack.push(16);
+
+    cout << "Top (16?) is: " << stack.top() << endl;
+    cout << "Size (4?) is: " << stack.size() << endl;
+
+    //pop
+    stack.pop();
+    cout << "Top (12?) is: " << stack.top() << endl;
+    cout << "Size (3?) is: " << stack.size() << endl;
+
+    //empty
+    stack.empty();
+    cout << "Size (0?) is: " << stack.top() << endl;
+
+
+    /* string line;
     getline(cin, line);
 
     vector<Token> tokens = tokenize(line);
+
 
     if (isValidPostfix(tokens)) {
         cout << "FORMAT: POSTFIX\n";
@@ -115,4 +141,5 @@ int main() {
     }
 
     return 0;
+    */
 }

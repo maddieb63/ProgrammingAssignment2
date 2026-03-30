@@ -22,13 +22,7 @@ public:
         // increment top index number and make index[] equal to item
         // size limit?
         topIndex++;
-        if (topIndex < data.size()) {
-
             data.push_back(item);
-
-        }
-
-
     }
 
     void pop() {
