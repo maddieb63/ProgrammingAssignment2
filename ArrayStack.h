@@ -7,6 +7,7 @@
 
 #include<vector>
 #include <stdexcept>
+#include<iostream>
 
 template<typename T>
 
@@ -22,7 +23,7 @@ public:
         // increment top index number and make index[] equal to item
         // size limit?
         topIndex++;
-            data.push_back(item);
+        data.push_back(item);
     }
 
     void pop() {
@@ -56,6 +57,13 @@ public:
         // return number of indexes + 1 for index 0
         return topIndex + 1;
     }
+    void printStack(const ArrayStack<T>& stack) {
+        for (int i =0; i < size(); i++) {
+            std::cout << data[i] << " ";
+        }
+        std::cout << std::endl;
+    }
+
 };
 
 

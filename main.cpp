@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <iostream>
 #include <unordered_map>
 #include <cctype>
 
@@ -16,8 +17,8 @@ struct Token {
 
 // Tokenizer
 
-vector<Token> tokenize(const string& line) {
-    vector<Token> tokens;
+ArrayStack<Token> tokenize(const string& line) {
+    ArrayStack<Token> tokens;
     //for value in tokens:
 
     // TODO
@@ -29,6 +30,21 @@ vector<Token> tokenize(const string& line) {
         // returns tokens as value or array?
             // tokens is a vector!
             // vectors have built in functions
+    string current = "";
+
+    for (int i = 0; i < line.length(); i++) {
+        if (line[i] == ' ') {
+            Token token;
+            token.value = current;
+            tokens.push(token);
+            current = "";
+        } else {
+            current += line[i];
+        }
+        Token token;
+        token.value = current;
+        tokens.push(token);
+    }
 
     return tokens;
 }
@@ -55,6 +71,7 @@ bool isValidPostfix(const vector<Token>& tokens) {
     // search for operators - use isOperator
     // if at the end post fix
     // if parentheses - throw error
+    // Ex: A B C * + D +     =     A + B * C + D
     return false;
 }
 
@@ -68,8 +85,8 @@ bool isValidInfix(const vector<Token>& tokens) {
 
 // Conversion
 
-vector<Token> infixToPostfix(const vector<Token>& tokens) {
-    vector<Token> output;
+ArrayStack<Token> infixToPostfix(const ArrayStack<Token>& tokens) {
+    ArrayStack<Token> output;
     // TODO
     // order determined by position - put highest precedence first
     return output;
@@ -77,7 +94,7 @@ vector<Token> infixToPostfix(const vector<Token>& tokens) {
 
 // Evaluation
 
-double evalPostfix(const vector<Token>& tokens) {
+double evalPostfix(const ArrayStack<Token>& tokens) {
     ArrayStack<double> stack;
     // TODO
     // solve expression
@@ -92,35 +109,16 @@ double evalPostfix(const vector<Token>& tokens) {
 // Main
 
 int main() {
-    //ArrayStack.h testing
-    ArrayStack<int> stack;
 
     cout << "Testing " << endl;
-    //push
-    stack.push(4);
-    stack.push(8);
-    stack.push(12);
-    stack.push(16);
 
-    cout << "Top (16?) is: " << stack.top() << endl;
-    cout << "Size (4?) is: " << stack.size() << endl;
-
-    //pop
-    stack.pop();
-    cout << "Top (12?) is: " << stack.top() << endl;
-    cout << "Size (3?) is: " << stack.size() << endl;
-
-    //empty
-    stack.empty();
-    cout << "Size (0?) is: " << stack.top() << endl;
-
-
-    /* string line;
+    string line;
     getline(cin, line);
 
-    vector<Token> tokens = tokenize(line);
+    ArrayStack<Token> tokens = tokenize(line);
+    std::cout << "Tokenized Line: " << tokens.printStack() << endl;
 
-
+    /*
     if (isValidPostfix(tokens)) {
         cout << "FORMAT: POSTFIX\n";
         cout << "RESULT: " << evalPostfix(tokens) << "\n";
