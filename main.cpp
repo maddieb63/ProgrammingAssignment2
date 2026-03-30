@@ -78,28 +78,41 @@ bool isValidPostfix(const ArrayStack<Token>& tokens) {
     return false;
 }
 
-bool isValidInfix(ArrayStack<Token>& tokens) {
+bool isValidInfix(const ArrayStack<Token>& tokens) {
+
     // TODO
     // normal operations
     // computer doesn't understand precedence from parentheses or operators?
     if (tokens.empty()) return false;
 
-    // check last index
-    Token top = tokens.top();
-    if (isOperator(top.value)) return false;
-    tokens.pop();
+    ArrayStack<Token> tempStack = tokens;
 
-    while (!tokens.empty()) {
-        Token current = tokens.top();
-        tokens.pop();
-        Token previous = tokens.top();
-        if (isOperator(previous.value) && isOperator(current.value)) {
-            return false;
+    Token previous;
+    bool notLast = false;
+
+    while (!tempStack.empty()) {
+        Token current = tempStack.top();
+        tempStack.pop();
+
+        bool currOp = isOperator(current.value);
+        bool currNum = !currOp && current.value != ")" && current.value != "(";
+
+        if (notLast) {
+            bool prevOp = isOperator(previous.value);
+            bool prevNum = !prevOp && previous.value != "(" && previous.value != ")" && previous.value != "(";
+            if (currOp && prevOp) return false;
+            if (currNum && prevNum) return false;
+        } else {
+            // check first on stack (last in equation) to see if operator -> then will go through the rest of the values
+            if (currOp) return false;
         }
+        previous = current;
+        notLast = true;
     }
-
+    if (isOperator(previous.value)) return false;
     return true;
 }
+
 
 // Conversion
 
@@ -128,12 +141,19 @@ double evalPostfix(const ArrayStack<Token>& tokens) {
 
 int main() {
 
-    cout << "Testing Print - Enter line " << endl;
+    cout << "Testing Is validInfix - Enter line " << endl;
 
     string line;
     getline(cin, line);
 
     ArrayStack<Token> tokens = tokenize(line);
+
+    if (isValidInfix(tokens)) {
+        cout << "True" << endl;
+    } else {
+        cout << "False" << endl;
+    }
+
     tokens.printStack();
 
     /*
