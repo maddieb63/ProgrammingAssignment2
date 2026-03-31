@@ -165,20 +165,25 @@ double evalPostfix(const ArrayStack<Token>& tokens) {
         // reverse order from vector?
     ArrayStack<Token> tempStack = tokens;
     ArrayStack<Token> reverseStack;
-    ArrayStack<Token> Operators;
-    ArrayStack<Token> Numbers;
+    ArrayStack<double> Numbers;
 
     while (!tempStack.empty()) {
         reverseStack.push(tempStack.top());
         tempStack.pop();
     }
     while (!reverseStack.empty()) {
-        Token top = reverseStack.top();
-        while (!isOperator(top.value)) {
+        Token current = reverseStack.top();
+        while (!isOperator(current.value)) {
             reverseStack.pop();
             Token next = reverseStack.top();
-
+            reverseStack.pop();
+            Token operand = reverseStack.top();
         }
+        if (operand.value() == "+") {
+            int result = next + current
+        }
+        Numbers.push(result);
+
 
     }
 
