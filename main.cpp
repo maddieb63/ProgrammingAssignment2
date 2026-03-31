@@ -166,6 +166,7 @@ double evalPostfix(const ArrayStack<Token>& tokens) {
     ArrayStack<Token> tempStack = tokens;
     ArrayStack<Token> reverseStack;
     ArrayStack<double> Numbers;
+    double result;
 
     while (!tempStack.empty()) {
         reverseStack.push(tempStack.top());
@@ -173,11 +174,10 @@ double evalPostfix(const ArrayStack<Token>& tokens) {
     }
     while (!reverseStack.empty()) {
         Token current = reverseStack.top();
-        Token operand;
+        reverseStack.pop();
         Token next;
         double num1;
         double num2;
-        int result;
         if (!isOperator(current.value)) {
             double currNum = std::stod(current.value);
             Numbers.push(currNum);
@@ -188,30 +188,28 @@ double evalPostfix(const ArrayStack<Token>& tokens) {
             num2 = Numbers.top();
             Numbers.pop();
         }
-        if (operand.value == "+") {
-
+        if (current.value == "+") {
             result = num1 + num2;
-        } else if (operand.value == "-") {
+            Numbers.push(result);
+        } else if (current.value == "-") {
             result = num1 - num2;
-        } else if (operand.value == "*") {
+            Numbers.push(result);
+        } else if (current.value == "*") {
             result = num1 * num2;
-        } else if (operand.value == "/") {
+            Numbers.push(result);
+        } else if (current.value == "/") {
             result = num1 / num2;
+            Numbers.push(result);
         }
-        Numbers.push(result);
-
     }
-
-
-
-    return 0.0;
+    return Numbers.top();
 }
 
 // Main
 
 int main() {
 
-    cout << "Testing Is validity - Enter line with spaces between numbers/operators" << endl;
+    cout << "Testing - Enter line with spaces between numbers/operators" << endl;
 
     string line;
     getline(cin, line);
@@ -232,7 +230,7 @@ int main() {
 
     tokens.printStack();
 
-    cout << "Result: " << evalPostfix(tokens) << endl;
+    cout << "Result: " << evalPostfix(tokens) << "\n";
 
     /*
     if (isValidPostfix(tokens)) {
