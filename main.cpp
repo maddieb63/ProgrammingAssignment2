@@ -19,17 +19,6 @@ struct Token {
 
 ArrayStack<Token> tokenize(const string& line) {
     ArrayStack<Token> tokens;
-    //for value in tokens:
-
-    // TODO
-    // break the input string into tokens
-    // include in instructions to put spaces between characters - can find that way - loop from space to space?
-        // double digits would be easier
-        // parentheses too?
-        // put into previously empty array
-        // returns tokens as value or array?
-            // tokens is a vector!
-            // vectors have built in functions
     string current = "";
 
     for (int i = 0; i < line.length(); i++) {
@@ -174,6 +163,26 @@ double evalPostfix(const ArrayStack<Token>& tokens) {
     // pop one at a time and do something to current total value?
         // first in first out - keep in mind
         // reverse order from vector?
+    ArrayStack<Token> tempStack = tokens;
+    ArrayStack<Token> reverseStack;
+    ArrayStack<Token> Operators;
+    ArrayStack<Token> Numbers;
+
+    while (!tempStack.empty()) {
+        reverseStack.push(tempStack.top());
+        tempStack.pop();
+    }
+    while (!reverseStack.empty()) {
+        Token top = reverseStack.top();
+        while (!isOperator(top.value)) {
+            reverseStack.pop();
+            Token next = reverseStack.top();
+
+        }
+
+    }
+
+
 
     return 0.0;
 }
