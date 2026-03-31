@@ -173,17 +173,32 @@ double evalPostfix(const ArrayStack<Token>& tokens) {
     }
     while (!reverseStack.empty()) {
         Token current = reverseStack.top();
-        while (!isOperator(current.value)) {
-            reverseStack.pop();
-            Token next = reverseStack.top();
-            reverseStack.pop();
-            Token operand = reverseStack.top();
+        Token operand;
+        Token next;
+        double num1;
+        double num2;
+        int result;
+        if (!isOperator(current.value)) {
+            double currNum = std::stod(current.value);
+            Numbers.push(currNum);
+        } else {
+            // if it's an operator look at previous two numbers
+            num1 = Numbers.top();
+            Numbers.pop();
+            num2 = Numbers.top();
+            Numbers.pop();
         }
-        if (operand.value() == "+") {
-            int result = next + current
+        if (operand.value == "+") {
+
+            result = num1 + num2;
+        } else if (operand.value == "-") {
+            result = num1 - num2;
+        } else if (operand.value == "*") {
+            result = num1 * num2;
+        } else if (operand.value == "/") {
+            result = num1 / num2;
         }
         Numbers.push(result);
-
 
     }
 
@@ -216,6 +231,8 @@ int main() {
     }
 
     tokens.printStack();
+
+    cout << "Result: " << evalPostfix(tokens) << endl;
 
     /*
     if (isValidPostfix(tokens)) {
