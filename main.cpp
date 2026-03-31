@@ -81,20 +81,42 @@ bool isValidPostfix(const ArrayStack<Token>& tokens) {
     // if parentheses - throw error
     // Ex: A B C * + D +        [A + B * C + D]
     if (tokens.empty()) return false;
-    ArrayStack<Token> tempStack = tokens;
+    ArrayStack<Token> tempStack1 = tokens;
+    //move into new stack to go through the other way from left to right of expression
+    ArrayStack<Token> tempStack2;
+    while (!tempStack1.empty()) {
+        tempStack2.push(tempStack1.top());
+        tempStack1.pop();
+    }
     Token previous;
-    bool notLast = false;
-    while (!tempStack.empty()) {
-        Token current = tempStack.top();
-        tempStack.pop();
+    int count = 0;
+
+    while (!tempStack2.empty()) {
+        Token current = tempStack2.top();
+        tempStack2.pop();
         if (current.value == "(" || current.value == ")") {
             return false;
         }
+        //not an operator + 1
+        if (!isOperator(current.value)) {
+            count++;
+        }
+        // operator - 2 + 1
+        if (isOperator(current.value)) {
+            count = count - 2;
+            if (count < 0) {
+                return false; //check if first two
+            } else {
+                count++;
+            }
+        }
         previous = current;
-        notLast = true;
-
     }
-    return true;
+    // check first value
+    if (previous.value == "(" || previous.value == ")") {
+        return false;
+    }
+    return count == 1;
 }
 
 bool isValidInfix(const ArrayStack<Token>& tokens) {
@@ -160,7 +182,7 @@ double evalPostfix(const ArrayStack<Token>& tokens) {
 
 int main() {
 
-    cout << "Testing Is validInfix - Enter line " << endl;
+    cout << "Testing Is validity - Enter line with spaces between numbers/operators" << endl;
 
     string line;
     getline(cin, line);
@@ -168,9 +190,15 @@ int main() {
     ArrayStack<Token> tokens = tokenize(line);
 
     if (isValidInfix(tokens)) {
-        cout << "True" << endl;
+        cout << "True Infix" << endl;
     } else {
-        cout << "False" << endl;
+        cout << "False Infix" << endl;
+    }
+
+    if (isValidPostfix(tokens)) {
+        cout << "True Postfix" << endl;
+    } else {
+        cout << "False Postfix" << endl;
     }
 
     tokens.printStack();
