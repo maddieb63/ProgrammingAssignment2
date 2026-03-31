@@ -63,8 +63,13 @@ int precedence(const string& op) {
     // parentheses come first then rest of PEMDAS
     // gives indexes priority? - indexes hold multiple values?
     // return type is int
-
-    return 0;
+    int prec = 0;
+    if (op == "*" || op == "/") {
+        prec = 1;
+    } else if (op == "+" || op == "-") {
+        prec = 2;
+    }
+    return prec;
 }
 
 // Detection
@@ -74,8 +79,22 @@ bool isValidPostfix(const ArrayStack<Token>& tokens) {
     // search for operators - use isOperator
     // if at the end post fix
     // if parentheses - throw error
-    // Ex: A B C * + D +     =     A + B * C + D
-    return false;
+    // Ex: A B C * + D +        [A + B * C + D]
+    if (tokens.empty()) return false;
+    ArrayStack<Token> tempStack = tokens;
+    Token previous;
+    bool notLast = false;
+    while (!tempStack.empty()) {
+        Token current = tempStack.top();
+        tempStack.pop();
+        if (current.value == "(" || current.value == ")") {
+            return false;
+        }
+        previous = current;
+        notLast = true;
+
+    }
+    return true;
 }
 
 bool isValidInfix(const ArrayStack<Token>& tokens) {
