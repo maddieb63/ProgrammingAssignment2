@@ -150,6 +150,14 @@ ArrayStack<Token> infixToPostfix(const ArrayStack<Token>& tokens) {
     ArrayStack<Token> output;
     // TODO
     // order determined by position - put highest precedence first
+    // NOtes from Open Stack
+    // when you see a parenthesis wait until ')' then pop operator
+    // use stack to keep operators
+    // convert input to string
+    //if the token is an operand put to end of output list
+    // if the token is '(' push onto stack if ')' pop until left is removed
+    // if token is operator push onto stack, remove operators that higher or equal precedence and append to output
+
     return output;
 }
 
