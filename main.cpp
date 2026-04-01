@@ -161,14 +161,47 @@ ArrayStack<Token> infixToPostfix(const ArrayStack<Token>& tokens) {
     // Shunting Yard Style:
         // moving operators to a stack and numbers to an output queue
         // Same basic steps as found from OpenStack research (no string?)
-    // read left to right
-    // add operands directly to output queue
-    // left parenthesis push onto operator stack
-    // right pop operators
+    // read left to right - reverse token stack
+    ArrayStack<Token> tempStack = tokens;
+    ArrayStack<Token> reverseStack;
+    ArrayStack<Token> Operator;
+    while (!tempStack.empty()) {
+        reverseStack.push(tempStack.top());
+        tempStack.pop();
+    }
+    while (!reverseStack.empty()) {
+        Token current = reverseStack.top();
+        reverseStack.pop();
+        // add operands directly to output queue
+        if (!isOperator(current.value)) {
+            output.push(current);
+        } else {
+            // left parenthesis push onto operator stack
+            if (current.value == "(") {
+                Operator.push(current);
+            }
+            if (isOperator(current.value)) {
+                Operator.push(current);
+            }
+            // right pop operators
+            if (current.value == ")") {
+                Token top;
+                while (top.value != "(") {
+                    top = Operator.top();
+                    output.push(current);
+                    Operator.pop();
+                }
+            }
+        }
+    }
+
     // pop operators from stack to output queue if higher or equal precedence then current operator
+    while (!Operator.empty()) {
+        Token current = Operator.top();
+        output.push(current);
+        Operator.pop();
+    }
     // pop remaining operators from stack to the queue
-
-
     return output;
 }
 
@@ -249,7 +282,11 @@ int main() {
 
     tokens.printStack();
 
-    cout << "Result: " << evalPostfix(tokens) << "\n";
+    //cout << "Result: " << evalPostfix(tokens) << "\n";
+
+    ArrayStack<Token> tester = infixToPostfix(tokens);
+    cout << "Infix to postfix" << "\n";
+    tester.printStack();
 
     /*
     if (isValidPostfix(tokens)) {
