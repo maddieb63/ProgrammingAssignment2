@@ -1,5 +1,5 @@
 //
-// Created by maddi on 3/24/2026.
+// Created by maddie on 3/24/2026.
 //
 
 #ifndef PROGRAMMINGASSIGNMENT2_ARRAYSTACK_H
@@ -19,18 +19,11 @@ private:
 public:
     ArrayStack() : topIndex(-1){}
     void push(const T& item) {
-        // stack is not full (!isFull)
-        // increment top index number and make index[] equal to item
-        // size limit?
         topIndex++;
         data.push_back(item);
     }
 
     void pop() {
-        // stack is not empty (!isEmpty)
-        // first in - first out
-        // decrement top
-        // size should automatically get smaller if top moves?
         if (!empty()) {
             data.pop_back();
             topIndex--;
@@ -45,18 +38,17 @@ public:
         } else {
             throw std::out_of_range("Stack is empty");
         }
-            // if not empty returns top data
+
     }
 
     bool empty() const {
-        // only full if the top value is -1
         return topIndex == -1;
     }
 
     int size() const {
-        // return number of indexes + 1 for index 0
         return topIndex + 1;
     }
+
     void printStack() const {
         for (int i =0; i <= topIndex; i++) {
             std::cout << data[i].value << " ";
