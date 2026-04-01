@@ -173,25 +173,26 @@ ArrayStack<Token> infixToPostfix(const ArrayStack<Token>& tokens) {
         Token current = reverseStack.top();
         reverseStack.pop();
         // add operands directly to output queue
-        if (!isOperator(current.value)) {
+        if (!isOperator(current.value) && current.value != "(" && current.value != ")") {
             output.push(current);
-        } else {
+        } else if (current.value == "(") {
             // left parenthesis push onto operator stack
-            if (current.value == "(") {
-                Operator.push(current);
+            Operator.push(current);
+        } else if (isOperator(current.value)) {
+            // pop operators from stack to output queue if higher or equal precedence then current operator
+            while (precedence(Operator.top().value) >= precedence(current.value) && !Operator.empty()) {
+                output.push(Operator.top());
+                Operator.pop();
             }
-            if (isOperator(current.value)) {
-                Operator.push(current);
+            Operator.push(current);
+        } else if (current.value == ")"){
+            Token top;
+            while (top.value != "(" && !Operator.empty()) {
+                output.push(Operator.top());
+                Operator.pop();
             }
-            // right pop operators
-            if (current.value == ")") {
-                Token top;
-                while (top.value != "(") {
-                    top = Operator.top();
-                    output.push(current);
-                    Operator.pop();
-                }
-            }
+        } else {
+            cout << "ERROR - none of the cases" << endl;
         }
     }
 
