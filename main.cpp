@@ -158,6 +158,17 @@ ArrayStack<Token> infixToPostfix(const ArrayStack<Token>& tokens) {
     // if the token is '(' push onto stack if ')' pop until left is removed
     // if token is operator push onto stack, remove operators that higher or equal precedence and append to output
 
+    // Shunting Yard Style:
+        // moving operators to a stack and numbers to an output queue
+        // Same basic steps as found from OpenStack research (no string?)
+    // read left to right
+    // add operands directly to output queue
+    // left parenthesis push onto operator stack
+    // right pop operators
+    // pop operators from stack to output queue if higher or equal precedence then current operator
+    // pop remaining operators from stack to the queue
+
+
     return output;
 }
 
